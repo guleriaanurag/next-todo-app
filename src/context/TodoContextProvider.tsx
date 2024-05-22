@@ -1,4 +1,4 @@
-import { createContext,useContext,useState } from "react"
+import { createContext,useContext,useEffect,useState } from "react"
 
 export interface todoType{
     id: number,
@@ -27,20 +27,38 @@ export default function TodoContextProvider({children}:{children:React.ReactNode
     const [todos,setTodos] = useState<todoType[]>([]);
     
     function addTodo(newTodo: todoType):void{
-        setTodos(prevState => [newTodo,...prevState])
+        setTodos((prevState)=>{
+            const newState = [...prevState,newTodo]
+            localStorage.setItem('todos',JSON.stringify(newState));
+            return newState;
+        })
     }
 
     function deleteTodo(id:number):void{
-        setTodos(prevState => prevState.filter((todo)=>todo.id !== id))
+        setTodos( (prevState) => {
+            const newState = prevState.filter((todo)=>todo.id !== id);
+            localStorage.setItem('todos',JSON.stringify(newState));
+            return newState;
+        })
     }
 
-    function toggleStatus(id:number){
-        setTodos(prevState =>
-            prevState.map((todo) =>
+    function toggleStatus(id: number) {
+        setTodos((prevState) => {
+            const newState = prevState.map((todo) =>
                 todo.id === id ? { ...todo, taskStatus: todo.taskStatus === 'done' ? 'pending' : 'done' } : todo
-            )
-        );
+            );
+            localStorage.setItem('todos', JSON.stringify(newState));
+            return newState;
+        });
     }
+
+    useEffect(()=>{
+        const storedTodos = localStorage.getItem('todos');
+        if(storedTodos){
+            const todoList: todoType[] = JSON.parse(storedTodos);
+            setTodos(todoList);
+        }
+    },[])
 
     return(
         <TodoContext.Provider value={{todos,addTodo,deleteTodo,toggleStatus}}>

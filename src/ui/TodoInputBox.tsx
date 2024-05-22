@@ -50,7 +50,7 @@ export default function TodoInputBox(){
     }
 
     return(
-        <div className="w-[80%] h-auto py-4 border border-gray-400 rounded-md flex items-center justify-center gap-6">
+        <div className="w-[80%] h-auto mt-8 mb-4 py-4 border border-gray-400 rounded-md flex items-center justify-center gap-6">
             <div className="flex flex-col gap-2 w-[60%]">
                 <div className="flex gap-2 items-center justify-between">
                     <label htmlFor="task">Task:</label>

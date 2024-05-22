@@ -6,7 +6,7 @@ import TodoWrapper from "@/ui/TodoWrapper";
 
 export default function Home(){
   return(
-    <div className="min-h-screen h-auto max-w-screen w-screen flex flex-col items-center justify-center gap-5">
+    <div className="min-h-screen h-auto overflow-scroll max-w-screen w-screen flex flex-col items-center justify-center gap-5">
         <TodoContextProvider>
           <TodoInputBox />
           <TodoWrapper />
